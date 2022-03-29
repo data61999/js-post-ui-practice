@@ -146,7 +146,9 @@ function renderPagination(pagination) {
 
 (async () => {
   try {
+    // bind click event for pagination click
     registerBindPagination();
+    //  set default params in URL
     initURL();
 
     const queryParams = new URLSearchParams(window.location.search);
