@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import postApi from './api/postApi';
 import { setTextContent, truncateText } from './ultis';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import debounce from 'lodash.debounce';
 
 // config for fromNow() dayjs
 dayjs.extend(relativeTime);
@@ -45,7 +46,7 @@ function createPostElement(post) {
 }
 
 function renderPostList(postList) {
-  if (!Array.isArray(postList) || postList.length === 0) return;
+  if (!Array.isArray(postList)) return;
 
   const ulElement = document.getElementById('postsList');
   if (!ulElement) return;
@@ -63,7 +64,11 @@ async function handleFilterChange(filterName, filterValue) {
   try {
     const url = new URL(window.location);
     url.searchParams.set(filterName, filterValue);
+    if (url.searchParams.get('title_like')) {
+      url.searchParams.set('_page', 1);
+    }
     history.pushState({}, '', url);
+
     // fetch api
     const response = await postApi.getAll(url.searchParams);
     // render post list
@@ -144,12 +149,31 @@ function renderPagination(pagination) {
   else paginationElement.lastElementChild?.classList.remove('disabled');
 }
 
+const searchDebounce = debounce((e) => {
+  handleFilterChange('title_like', e.target.value);
+}, 500);
+
+function initSearch() {
+  const searchInput = document.getElementById('searchInput');
+  if (!searchInput) return;
+
+  // set search value from URL params
+  const queryParams = new URLSearchParams(window.location.search);
+  if (queryParams.get('title_like')) {
+    searchInput.value = queryParams.get('title_like');
+  }
+
+  searchInput.addEventListener('input', searchDebounce);
+}
+
 (async () => {
   try {
     // bind click event for pagination click
     registerBindPagination();
     //  set default params in URL
     initURL();
+    // initSearch
+    initSearch();
 
     const queryParams = new URLSearchParams(window.location.search);
     const response = await postApi.getAll(queryParams);
