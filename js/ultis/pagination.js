@@ -12,7 +12,7 @@ export function registerBindPagination({ elementId, queryParams, onChange }) {
       if (currentPage >= 2) onChange?.(currentPage - 1);
     });
 
-  // bind click event for previous link
+  // bind click event for next link
   const nextLink = paginationElement.lastElementChild.firstElementChild;
   if (nextLink)
     nextLink.addEventListener('click', (e) => {

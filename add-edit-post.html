@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Add edit post</title>
 
-    <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
-
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -46,13 +44,7 @@
         <div class="container">
           <ul class="nav justify-content-between align-items-center">
             <li class="nav-item">
-              <a class="nav-link" href=".">
-                <img
-                  class="nav__logo"
-                  src="images/logo.svg"
-                  alt="Logo Nordic Coder"
-                />
-              </a>
+              <a class="nav__link nav-link_icon" href="/">POSTMAM</a>
             </li>
 
             <li class="nav-item">
@@ -80,8 +72,8 @@
               </p>
             </div>
 
-            <form id="postForm" class="post-form">
-              <div class="form-group">
+            <form id="postForm" class="post-form" novalidate>
+              <div class="form-group mb-3">
                 <label for="postTitle">Title</label>
                 <input
                   type="text"
@@ -94,7 +86,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group mb-3">
                 <label for="postAuthor">Author</label>
                 <input
                   type="text"
@@ -107,7 +99,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group mb-3">
                 <label for="postDescription">Description</label>
                 <textarea
                   class="form-control"
@@ -116,20 +108,85 @@
                 ></textarea>
               </div>
 
-              <div class="form-group">
+              <!-- radio upload image -->
+              <div class="mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="imageSource"
+                    id="imageSourcePicsum"
+                    value="picsum"
+                    checked
+                  />
+                  <label class="form-check-label" for="imageSourcePicsum">
+                    Random image using picsum.photos
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="imageSource"
+                    id="imageSourceUpload"
+                    value="upload"
+                  />
+                  <label class="form-check-label" for="imageSourceUpload">
+                    Upload imag from your computer
+                  </label>
+                </div>
+              </div>
+
+              <!-- button upload image using picsum  -->
+              <div
+                data-id="imageSource"
+                data-image-source="picsum"
+                class="form-group mb-3"
+              >
                 <label for="postChangeImage">Image</label>
                 <small id="passwordHelpBlock" class="form-text text-muted">
                   We&apos;re using
                   <a href="https://picsum.photos">Picsum service</a> to get a
                   random image.
                 </small>
-                <button type="button" id="postChangeImage" class="btn btn-dark">
-                  Change post image
-                </button>
+
+                <input type="text" class="d-none" name="imageUrl" />
+                <div class="invalid-feedback"></div>
+
+                <div>
+                  <button
+                    type="button"
+                    id="postChangeImage"
+                    class="btn btn-dark"
+                  >
+                    Change post image
+                  </button>
+                </div>
+              </div>
+
+              <!-- input upload image from computer -->
+              <div
+                data-id="imageSource"
+                data-image-source="upload"
+                class="input-group mb-3"
+                hidden
+              >
+                <input
+                  name="image"
+                  type="file"
+                  class="form-control"
+                  accept="image/*"
+                  multiple
+                />
+                <label class="input-group-text" for="inputGroupFile02"
+                  >Upload</label
+                >
+
+                <div class="invalid-feedback"></div>
               </div>
 
               <div class="text-center">
-                <button class="btn btn-primary">
+                <button name="submit" class="btn btn-primary">
                   <i class="fas fa-save mr-1"></i> Save
                 </button>
               </div>
@@ -140,9 +197,10 @@
     </main>
 
     <footer class="text-center text-muted py-3">
-      <small>Created by Po with <i class="fas fa-heart"></i></small>
+      <small>POSTMAM <i class="fas fa-heart"></i></small>
     </footer>
 
     <!-- Scripts should be placed here to prevent blocking render UI -->
+    <script type="module" src="/js/add-edit-post.js"></script>
   </body>
 </html>

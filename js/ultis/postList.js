@@ -39,13 +39,28 @@ export function createPostElement(post) {
     `- ${dayjs(post.updateAt).fromNow()}`
   );
 
-  // redirect to post detail when click
+  // bind click event for post detail
   const divPostItem = liElement.querySelector('div.post-item');
   if (divPostItem) {
-    divPostItem.addEventListener('click', () => {
+    divPostItem.addEventListener('click', (e) => {
+      //if trigger event from menu -> ignore
+      const menuItem = divPostItem.querySelector('[data-id="menu"]');
+      if (menuItem.contains(e.target)) return;
+
       window.location.assign(`/post-detail.html?id=${post.id}`);
     });
   }
+
+  // bind click event for edit icon
+  const editIcon = liElement.querySelector('[data-id="edit"]');
+  if (editIcon) {
+    editIcon.addEventListener('click', (e) => {
+      // S1: prevent event from child
+      // e.stopPropagation();
+      window.location.assign(`/add-edit-post.html?id=${post.id}`);
+    });
+  }
+
   // return li
   return liElement;
 }
